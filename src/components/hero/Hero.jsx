@@ -6,6 +6,7 @@ const Hero = ({
   mainHeader,
   secondaryHeader
 }) => {
+  
   return (
     <div>
       <div className="relative h-screen w-full">

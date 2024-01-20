@@ -1,7 +1,10 @@
 import './globals.css'
+
 import { register } from 'swiper/element/bundle';
 import { Inter } from 'next/font/google'
 import { LayoutProvider } from '@/components/layoutProvider/LayoutProvider';
+import Provider from '@/utils/sessionProvider';
+import Toast from '@/utils/toast';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -16,9 +19,12 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={inter.className}>
-        <LayoutProvider>
-          {children}
-        </LayoutProvider>
+        <Provider>
+          <Toast />
+          <LayoutProvider>
+            {children}
+          </LayoutProvider>
+        </Provider>
       </body>
     </html>
   )
