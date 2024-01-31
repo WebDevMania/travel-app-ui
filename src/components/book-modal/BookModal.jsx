@@ -2,11 +2,9 @@
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
 
-import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { format } from 'currency-formatter'
 import React, { useState } from 'react'
 import { AiOutlineClose } from 'react-icons/ai'
-import { ClipLoader } from "react-spinners";
 import { DateRangePicker } from 'react-date-range';
 import { redirectToCheckout } from './service';
 
@@ -15,6 +13,7 @@ const BookModal = ({
     listing
 }) => {
 
+    const [isLoading, setIsLoading] = useState(false)
     const [dateRange, setDateRange] = useState(
         [
             new Date(),
@@ -39,12 +38,14 @@ const BookModal = ({
     }
 
     const handlePayment = async () => {
+        setIsLoading(true)
         const startDate = dateRange[0]
         const endDate = dateRange[1]
 
         const daysDifference = calcDaysDiff()
 
         await redirectToCheckout(listing, startDate, endDate, daysDifference)
+        setIsLoading(false)
     }
 
     return (
@@ -98,7 +99,7 @@ const BookModal = ({
                         onClick={handlePayment}
                         className='w-3/4 mx-auto cursor-pointer rounded-lg py-3 px-6 text-xl text-white bg-blue-500 transition-all hover:bg-blue-600'
                     >
-                        Submit
+                        {isLoading ? "Loading..." : "Submit"}
                     </button>
                 </div>
             </div>

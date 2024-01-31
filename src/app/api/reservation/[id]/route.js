@@ -7,6 +7,7 @@ export async function DELETE(req, ctx) {
         const { id } = ctx.params
 
         const currentUser = await getCurrentUser()
+
         const reservation = await db.reservation.findUnique({
             where: {
                 id
@@ -27,6 +28,7 @@ export async function DELETE(req, ctx) {
                 id
             }
         })
+
 
         return NextResponse.json({ message: "Successfully deleted reservation with id of " + id }, { status: 200 })
 

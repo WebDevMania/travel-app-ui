@@ -2,11 +2,29 @@ import db from "@/lib/db"
 import isAdminUser from "@/lib/isAdminUser"
 import { NextResponse } from "next/server"
 
+export async function GET(req, ctx) {
+    try {
+        await isAdminUser()
+
+        const { id } = ctx.params
+
+        const listing = await db.listing.findFirst({
+            where: {
+                id
+            }
+        })
+
+        return NextResponse.json(listing)
+    } catch (error) {
+        return NextResponse.error(error.message)
+    }
+}
+
 export async function PUT(req, ctx) {
     try {
         await isAdminUser()
 
-        const id = ctx.params.id
+        const { id } = ctx.params
         const body = await req.json()
 
         const updatedListing = await db.listing.update({

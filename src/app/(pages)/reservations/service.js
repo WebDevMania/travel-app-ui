@@ -6,8 +6,16 @@ export async function getUserReservations() {
     return data
 }
 
-export async function deleteReservation(id) {
-    const { data } = await AXIOS_API.delete(`/reservation/${id}`)
+export async function deleteReservation({ chargeId, reservationId }) {
+    const { data: _, error: refundError } = await refundPayment({ chargeId, reservationId })
+    if(refundError) throw new Error("Couldnt refund")
 
-    return data
+    const { data, error } = await AXIOS_API.delete(`/reservation/${reservationId}`)
+
+    return { data, error }
+}
+
+async function refundPayment({ chargeId, reservationId }) {
+    const { data, error } = await AXIOS_API.delete(`/stripe?charge_id=${chargeId}&reservation_id=${reservationId}`)
+    return { data, error }
 }

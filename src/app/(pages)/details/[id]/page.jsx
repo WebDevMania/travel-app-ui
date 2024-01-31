@@ -19,7 +19,7 @@ const HotelDetails = (ctx) => {
 
     const [showModal, setShowModal] = useState(false)
     const swiperElRef = useRef(null)
-    const { data: listing, isLoading } = useQuery({
+    const { data: listing, isPending } = useQuery({
         queryKey: ["listings", { id }],
         queryFn: () => getListingById(id),
     })
@@ -27,8 +27,7 @@ const HotelDetails = (ctx) => {
     const handleShowModal = () => setShowModal(prev => true)
     const handleHideModal = () => setShowModal(prev => false)
 
-
-    if (isLoading) {
+    if (isPending) {
         const style = {
             marginTop: "5rem",
             position: 'absolute',
@@ -68,6 +67,8 @@ const HotelDetails = (ctx) => {
                                             height="750"
                                             width="750"
                                             src={imageUrl}
+                                            blurDataURL={listing.blurredImage}
+                                            placeholder="blur"
                                         />
                                     </swiper-slide>
                                 ))}
@@ -109,7 +110,7 @@ const HotelDetails = (ctx) => {
                         </p>
                         <button
                             onClick={handleShowModal}
-                            className='cursor-pointer rounded-lg py-2 px-6 text-xl text-white bg-blue-500'
+                            className='cursor-pointer rounded-lg py-2 px-6 text-xl text-white bg-blue-500 transition hover:bg-blue-400'
                         >
                             Book
                         </button>

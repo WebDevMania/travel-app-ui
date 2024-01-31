@@ -6,20 +6,23 @@ import { signOut } from 'next-auth/react'
 import { MdDashboard, MdHotel } from 'react-icons/md'
 import {
     AiFillBell,
+    AiFillStar,
     AiOutlineHome,
     AiOutlineLogout,
     AiOutlineUser
 } from 'react-icons/ai'
+import { usePathname } from 'next/navigation'
 
 const Sidebar = () => {
-    const [activeTab, setActiveTab] = useState(0)
+    const currentPage = usePathname().split("/")[2]
 
     const sidebarData = [
         {
             text: "Dashboard",
             icon: MdDashboard,
-            href: "/admin",
+            href: "/admin/dashboard",
             onClick: () => { },
+            isCurrentPage: currentPage === "dashboard",
             isNew: false
         },
         {
@@ -27,6 +30,7 @@ const Sidebar = () => {
             icon: AiOutlineUser,
             href: "/admin/users",
             onClick: () => { },
+            isCurrentPage: currentPage === "users",
             isNew: false
         },
         {
@@ -34,6 +38,7 @@ const Sidebar = () => {
             icon: MdHotel,
             href: "/admin/listings",
             onClick: () => { },
+            isCurrentPage: currentPage === "listings",
             isNew: false
         },
         {
@@ -41,43 +46,38 @@ const Sidebar = () => {
             icon: AiOutlineHome,
             href: "/admin/reservations",
             onClick: () => { },
+            isCurrentPage: currentPage === "reservations",
             isNew: false
         },
         {
-            text: "Notifications",
-            icon: AiFillBell,
-            href: "/admin/notifications",
+            text: "Reviews",
+            icon: AiFillStar,
+            href: "/admin/reviews",
             onClick: () => { },
-            isNew: true
-        },
-        {
-            text: "Logout",
-            icon: AiOutlineLogout,
-            href: "/admin/logout",
-            onClick: () => { signOut() },
+            isCurrentPage: currentPage === "reviews",
             isNew: false
         },
     ]
 
     return (
         <div className="w-full flex flex-col justify-between">
-            <div className="h-full flex flex-col gap-10 col-span-1">
+            <div className="h-full w-full flex flex-col gap-10 col-span-1">
                 {sidebarData.map((data, idx) => (
                     <Link
                         href={data.href}
-                        onClick={() => { setActiveTab(idx); data.onClick() }}
-                        className={`flex items-center gap-2 p-3 rounded-xl transition-all cursor-pointer ${activeTab === idx && "bg-blue-600"}`}
+                        onClick={() => { data?.onClick() }}
+                        className={`flex items-center gap-2 p-3 rounded-xl transition-all cursor-pointer ${data.isCurrentPage && "bg-blue-600"}`}
                         key={idx}
                     >
                         <span>
                             {
                                 <data.icon
-                                    color={activeTab === idx ? "#fff" : "#cec7c7"}
+                                    color={data.isCurrentPage ? "#fff" : "#cec7c7"}
                                 />
                             }
                         </span>
                         <span
-                            className={`${activeTab === idx ? "text-white" : "text-[#cec7c7]"}`}
+                            className={`${data.isCurrentPage ? "text-white" : "text-[#cec7c7]"}`}
                         >
                             {data.text}
                         </span>
@@ -90,13 +90,6 @@ const Sidebar = () => {
                         )}
                     </Link>
                 ))}
-            </div>
-            <div
-                className="h-10 w-36 p-2 rounded-xl bg-[#f00]"
-            >
-                <h3 className="text-[#efefef] text-center text-[14px] font-bold">
-                    Admin Dashboard
-                </h3>
             </div>
         </div>
     )

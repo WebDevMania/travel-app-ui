@@ -37,32 +37,23 @@ const Client = () => {
                     />
                 </Link>
                 <div>
-                    {true ? (
-                        <div
-                            onClick={toggleModal}
-                            className='cursor-pointer'
-                        >
-                            <AiOutlineUser
-                                size={30}
-                                color={`${isScrolled ? "rgba(37 99 235)" : "#cec7c7"}`}
-                            />
-                        </div>
-                    ) : (
-                        <div className="flex items-center gap-4">
-                            <button>
-                                Login
-                            </button>
-                            <button className='px-4 py-2 rounded-lg text-white transition-all bg-blue-600 hover:bg-blue-700'>
-                                Sign up
-                            </button>
-                        </div>)}
+                    <div
+                        onClick={toggleModal}
+                        className='cursor-pointer'
+                    >
+                        <AiOutlineUser
+                            size={30}
+                            color={`${isScrolled ? "rgba(37 99 235)" : "#cec7c7"}`}
+                        />
+                    </div>
                     {showModal && (
                         <div onClick={toggleModal} className='absolute top-16 right-[270px] shadow-md flex flex-col gap-4 p-4 bg-white rounded-xl '>
-                            {session?.user?.isAdmin && (
-                                <Link className="text-slate-500 text-center" href={"/create"}>
-                                    Create (Admin)
+                            {session?.user?.isAdmin ?
+                                <Link href={"/admin/dashboard"} className="font-semibold uppercase bg-red-500 text-white p-2 rounded-lg cursor-pointer transition hover:bg-red-400">
+                                    Admin dashboard
                                 </Link>
-                            )}
+                                : ""
+                            }
                             <Link href={"/reservations"} className='text-slate-500 text-center'>
                                 Reservations
                             </Link>

@@ -1,12 +1,14 @@
+import { ClipLoader } from 'react-spinners'
 import { register } from 'swiper/element/bundle'
 import Image from 'next/image'
 import React from 'react'
 
 register()
-
 const BigWidget = ({
     listing
 }) => {
+
+    if (!listing) return <ClipLoader />
 
     return (
         <div className="h-[525px] mt-auto col-span-2 rounded-xl transition-all shadow-lg hover:shadow-xl">
@@ -15,7 +17,15 @@ const BigWidget = ({
                     #1 Reserved listing
                 </h3>
                 <div>
-                    <swiper-container
+                    <Image
+                        src={listing?.imageUrls[0]}
+                        className='object-cover'
+                        width="420"
+                        height="300"
+                        blurDataURL={listing?.blurredImage}
+                        placeholder="blur"
+                    />
+                    {/* <swiper-container
                         slides-per-view="1"
                         navigation="true"
                     >
@@ -29,7 +39,7 @@ const BigWidget = ({
                                 />
                             </swiper-slide>
                         ))}
-                    </swiper-container>
+                    </swiper-container> */}
                     <div className="p-6 flex flex-col gap-8">
                         <h3 className="mt-4 font-bold text-slate-700 text-2xl">
                             {listing?.name}

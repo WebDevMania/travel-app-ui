@@ -8,7 +8,11 @@ export async function GET(req) {
 
         if (!currentUser?.isAdmin) return NextResponse.error({ message: "You are not an admin!" }, { status: 403 })
 
-        const allUsers = await db.user.findMany({})
+        const allUsers = await db.user.findMany({
+            include: {
+                reservations: true
+            }
+        })
 
         return NextResponse.json(allUsers)
     } catch (error) {

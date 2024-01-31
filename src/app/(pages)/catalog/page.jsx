@@ -12,6 +12,9 @@ import { useRouter, useSearchParams } from "next/navigation"
 import { zodResolver } from "@hookform/resolvers/zod";
 import { schema } from "./schema";
 import { toast } from "react-hot-toast";
+import Button from "@/ui/Button";
+import Select from "@/ui/Select";
+import Input from "@/ui/Input";
 
 const Catalog = () => {
   const searchParams = useSearchParams()
@@ -51,7 +54,7 @@ const Catalog = () => {
   })
 
   const queryClient = useQueryClient()
-  const { data: listings, isLoading } = useQuery({
+  const { data: listings, isPending } = useQuery({
     queryFn: () => getFilteredListings(getValues()),
     queryKey: ['listings']
   })
@@ -59,14 +62,13 @@ const Catalog = () => {
   useEffect(() => {
     if (errors) {
       Object.keys((errors)).map((key) => {
-        console.log(key)
         toast.error(errors[key]?.message)
       })
     }
 
   }, [errors])
 
-  if (isLoading) {
+  if (isPending) {
     const style = {
       marginTop: "5rem",
       position: 'absolute',
@@ -111,31 +113,26 @@ const Catalog = () => {
             <h3 className='ml-1 text-[#efefef] font-semibold'>
               City
             </h3>
-            <select
-              {...register("location")}
-              className='text-blue-800 p-2 rounded-xl outline-none capitalize'
-            >
-              {optionLocations.map((option) => (
-                <option className="capitalize" key={option.value} value={option.value}>
-                  {option.city}
-                </option>
-              ))}
-            </select>
+            <Select
+              data={optionLocations}
+              register={register("location")}
+              className="text-blue-800 p-2 rounded-xl outline-none capitalize"
+            />
           </div>
           <div className='flex flex-col items-start gap-1'>
             <h3 className='ml-1 text-[#efefef] font-semibold'>Price</h3>
             <div className="flex items-center gap-2">
-              <input
-                className='text-blue-800 p-2 rounded-xl outline-none'
+              <Input
                 type="number"
+                register={register("min_price", { valueAsNumber: true })}
                 placeholder="Min. price"
-                {...register("min_price", { valueAsNumber: true })}
+                className="text-blue-800 p-2 rounded-xl outline-none"
               />
-              <input
-                className='text-blue-800 p-2 rounded-xl outline-none'
+              <Input
                 type="number"
+                register={register("max_price", { valueAsNumber: true })}
                 placeholder="Max. price"
-                {...register("max_price", { valueAsNumber: true })}
+                className="text-blue-800 p-2 rounded-xl outline-none"
               />
             </div>
           </div>
@@ -143,33 +140,17 @@ const Catalog = () => {
             <h3 className='ml-1 text-[#efefef] font-semibold'>
               Type of hotel
             </h3>
-            <select
-              className='text-blue-800 p-2 rounded-xl outline-none'
-              {...register("type")}
-            >
-              {optionTypes.map((option) => (
-                <option
-                  key={option.value}
-                  value={option.value}
-                >
-                  {option.text}
-                </option>
-              ))}
-            </select>
+            <Select
+              data={optionTypes}
+              register={register("type")}
+              className="text-blue-800 p-2 rounded-xl outline-none"
+            />
           </div>
-          <button
-            className='mt-6 px-6 py-2 text-[20px] bg-white text-blue-600 rounded-xl transition-all hover:bg-[#efefef]'
-          >
-            {
-              isLoading ? (
-                <div>
-                  <ClipLoader
-                    size={20}
-                  />
-                </div>
-              ) : "Search"
-            }
-          </button>
+          <Button
+            disabled={isPending}
+            label="Search"
+            className="mt-6 px-6 py-2 text-[20px] bg-white text-blue-600 rounded-xl transition-all hover:bg-[#efefef]"
+          />
         </form>
         <div className="w-full mt-36 flex flex-wrap justify-center items-center gap-14">
           {listings?.length > 0 ? listings?.map((place, idx) => (

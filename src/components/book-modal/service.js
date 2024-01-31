@@ -1,5 +1,4 @@
 import AXIOS_API from "@/utils/axiosAPI";
-import getCurrentUser from "@/utils/getCurrentUser";
 import { loadStripe } from '@stripe/stripe-js';
 
 export const redirectToCheckout = async (

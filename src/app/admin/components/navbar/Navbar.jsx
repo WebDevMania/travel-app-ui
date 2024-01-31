@@ -1,36 +1,47 @@
+"use client"
+
 import Link from 'next/link'
-import React from 'react'
-import { AiFillBell, AiOutlineHome } from 'react-icons/ai'
+import React, { useState } from 'react'
+import { IoCreateOutline } from 'react-icons/io5'
+import { AiOutlineHome } from 'react-icons/ai'
 import { FaUser } from 'react-icons/fa'
+import CreateModal from '../modals/create-modal/CreateModal'
 
 const NavbarAdmin = () => {
+    const [showModal, setShowModal] = useState(false)
+
+    const handleShowModal = () => setShowModal(prev => true)
+    const handleHideModal = () => setShowModal(prev => false)
+
     return (
-        <div className="flex justify-between items-center">
-            <Link href='/' className="flex items-center gap-2 transition-all">
+        <div className="sticky top-0 left-0 w-full flex justify-between items-center">
+            <Link href='/admin/dashboard' className="flex items-center gap-2 transition-all">
                 <h1 className="text-blue-600 text-2xl font-bold">
                     TravelGod
                 </h1>
                 <AiOutlineHome
                     size={25}
-                    color="rgba(37 99 235)"
+                    color="rgb(37 99 235)"
                 />
             </Link>
             <div className="flex items-center gap-6">
-                <div className="relative">
-                    <AiFillBell
-                        size={22}
-                        color="rgba(255 0 0)"
+                <button onClick={handleShowModal} className="bg-[#4522f4] px-2 py-1 cursor-pointer rounded-xl transition hover:bg-[#5738f2]">
+                    <IoCreateOutline
+                        size={20}
+                        color="#fff"
                     />
-                    <div
-                        className="flex justify-center items-center text-[10px] absolute h-4 w-4 bg-[#2563eb] text-white rounded-full bottom-3 left-2 z-10"
-                    >
-                        2
-                    </div>
-                </div>
-                <FaUser
-                    size={22}
-                    color="rgba(37 99 235)"
-                />
+                </button>
+                <button className="cursor-pointer">
+                    <FaUser
+                        size={22}
+                        color="rgb(37 99 235)"
+                    />
+                </button>
+                {showModal && (
+                    <CreateModal
+                        handleHideModal={handleHideModal}
+                    />
+                )}
             </div>
         </div>
     )

@@ -16,11 +16,11 @@ const Reviews = ({
     const [text, setText] = useState("")
 
     const queryClient = useQueryClient()
-    const { data: reviews, isLoading } = useQuery({
+    const { data: reviews, isPending: isPendingMutation } = useQuery({
         queryFn: () => getReviewsByListingId(id),
         queryKey: ["reviews"]
     })
-    const { mutate, isLoading: isLoadingMutation } = useMutation({
+    const { mutate } = useMutation({
         mutationFn: handleSubmit,
         onSuccess: () => {
             queryClient.invalidateQueries(["reviews"])
@@ -33,7 +33,7 @@ const Reviews = ({
     const endOffset = itemOffset + itemsPerPage
     const currentReviews = reviews?.slice(itemOffset, endOffset)
 
-    if (isLoading) {
+    if (isPendingMutation) {
         const style = {
             marginTop: "5rem",
             position: 'absolute',
@@ -94,7 +94,7 @@ const Reviews = ({
                 />
                 <button
                     className='cursor-pointer rounded-lg py-2 px-6 text-xl text-white bg-blue-500 disabled:bg-gray-800 hover:bg-blue-400 transition'
-                    disabled={isLoadingMutation}
+                    disabled={isPendingMutation}
                 >
                     Post
                 </button>
@@ -106,7 +106,7 @@ const Reviews = ({
                         review={review}
                     />
                 ))}
-                {!isLoading && (
+                {!isPendingMutation && (
                     <Pagination
                         setItemOffset={setItemOffset}
                         itemsPerPage={itemsPerPage}

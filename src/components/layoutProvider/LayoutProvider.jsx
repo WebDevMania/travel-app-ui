@@ -17,7 +17,7 @@ export const LayoutProvider = ({
     const pathname = usePathname();
     const queryClient = new QueryClient()
 
-    // I don't want /city to be on the top when I change the params
+    // I don't want /catalog to be on the top when I change the params
     useEffect(() => {
         if (!pathname.includes("catalog")) {
             window.scrollTo(0, 0)

@@ -21,7 +21,7 @@ const Review = ({
                     {review.user.username}
                 </h3>
                 <span className='text-slate-700'>
-                    {format(review.createdAt)}
+                {format(review.createdAt)}
                 </span>
                 <div className='mt-4 text-slate-800'>
                     {review.text}

@@ -1,6 +1,3 @@
-// export { default } from "next-auth/middleware"
-// export const config = { matcher: ["/", "/create", "/details/:id", "/reservations", "/catalog"] }
-
 import { getToken } from 'next-auth/jwt'
 import { NextResponse } from 'next/server'
 
@@ -9,9 +6,7 @@ export default async function middleware(req) {
     const pathname = req.nextUrl.pathname
     const urlOrigin = "http://localhost:3000/"
 
-    console.log(pathname)
-
-    if (pathname.includes('/create') && !token?.isAdmin) {
+    if (pathname.includes('/admin') && !token?.isAdmin) {
         return NextResponse.redirect(urlOrigin)
     }
 
@@ -26,4 +21,4 @@ export default async function middleware(req) {
     }
 }
 
-export const config = { matcher: ["/create", "/details/((?!general).*)", "/reservations", "/catalog", "/", "/login", "/register"] }
+export const config = { matcher: ["/create", "/details/((?!general).*)", "/reservations", "/catalog", "/", "/login", "/register", "/success-page"] }

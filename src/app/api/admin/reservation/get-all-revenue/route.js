@@ -14,6 +14,8 @@ export async function GET(req) {
             }
         })
 
+        if (allReservations.length === 0) return NextResponse.json(0)
+
         const allReservationsPrices = allReservations.map((reservation) => {
             return reservation.daysDifference * reservation.listing.pricePerNight
         })

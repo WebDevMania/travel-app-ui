@@ -1,10 +1,9 @@
 "use client"
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { deleteReservation, getUserReservations } from './service'
-import React from 'react'
-import { ClipLoader } from "react-spinners";
+import { ClipLoader } from "react-spinners"
 import { toast } from 'react-hot-toast'
-import Reservation from './Reservation'
+import Reservation from './Card'
 
 const Client = ({
     currentUser
@@ -16,9 +15,9 @@ const Client = ({
         queryFn: () => getUserReservations()
     })
 
-    const { mutate, isLoading: isLoadingMutation } = useMutation({
-        mutationFn: (id) => deleteReservation(id),
-        onSuccess: () => handleSuccess()
+    const { mutate } = useMutation({
+        mutationFn: ({ chargeId, reservationId }) => deleteReservation({ chargeId, reservationId }),
+        onSuccess: handleSuccess
     })
 
     function handleSuccess() {
@@ -53,7 +52,7 @@ const Client = ({
                         <h3 className='text-3xl mb-8'>
                             {currentUser?.isAdmin ? "All Reservations (Admin)" : "Your Reservations"}
                         </h3>
-                        <div className='pl-6 flex items-center flex-wrap gap-16'>
+                        <div className='pl-6 flex items-center flex-wrap gap-14'>
                             {data.map((reservation) => (
                                 <Reservation
                                     key={reservation.id}

@@ -8,9 +8,21 @@ export async function GET(req) {
 
         if (!currentUser?.isAdmin) return NextResponse.error({ message: "You are not an admin!" }, { status: 403 })
 
-        const allReservations = await db.reservation.findMany({})
+        const allReservations = await db.reservation.findMany({
+            include: {
+                listing: true,
+                user: true
+            }
+        })
 
-        return NextResponse.json(allReservations)
+        const allReservationsTotalPrice = allReservations.map((reservation) => {
+            return {
+                ...reservation,
+                totalPrice: reservation.daysDifference * reservation.listing.pricePerNight
+            }
+        })
+
+        return NextResponse.json(allReservationsTotalPrice)
     } catch (error) {
         return NextResponse.error(error)
     }

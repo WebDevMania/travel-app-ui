@@ -16,6 +16,8 @@ const Card = ({
           className="h-full w-full overflow-hidden rounded-tl-xl rounded-tr-xl object-cover"
           alt="Location's image"
           src={place.imageUrls[0]}
+          placeholder="blur"
+          blurDataURL={place.blurredImage}
           layout='fill'
         />
         <div

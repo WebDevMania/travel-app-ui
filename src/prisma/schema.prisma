@@ -18,7 +18,6 @@ model User {
 
     reservations Reservation[]
     reviews      Review[]
-    Notification Notification[]
 }
 
 model Listing {
@@ -40,6 +39,7 @@ model Reservation {
     id             String   @id @default(auto()) @map("_id") @db.ObjectId
     startDate      DateTime
     endDate        DateTime
+    chargeId String
     daysDifference Int
     reservedDates  Int[]    @default([])
 
@@ -64,14 +64,4 @@ model Review {
 
     listing Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
     user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
-
-model Notification {
-    id String @id @default(auto()) @map("_id") @db.ObjectId
-
-    text   String
-    userId String  @db.ObjectId
-    new    Boolean
-
-    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

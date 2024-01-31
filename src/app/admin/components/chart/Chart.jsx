@@ -55,7 +55,7 @@ const Chart = () => {
     }, [])
 
     return (
-        <div className="h-[550px] col-span-5">
+        <div className="h-[525px] col-span-5">
             <Bar
                 data={chartData}
                 options={chartOptions}
