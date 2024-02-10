@@ -4,8 +4,10 @@ import React from 'react'
 
 const Card = ({ place }) => {
 
+    const url = `/catalog?city=${place.city}&min_price=${50}&max_price=${999}&type=${'luxury'}`
+
     return (
-        <Link href={`/city/${place.city}`} className="cursor-pointer h-[500px] w-[350px] flex flex-wrap rounded-xl shadow-md">
+        <Link href={url} className="cursor-pointer h-[500px] w-[350px] flex flex-wrap rounded-xl shadow-md">
             {/* image container */}
             <div className="relative h-2/3 w-full">
                 <Image

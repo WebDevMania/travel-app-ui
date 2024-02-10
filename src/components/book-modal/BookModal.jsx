@@ -10,7 +10,9 @@ const BookModal = ({
         <div className='z-30 fixed backdrop-blur top-0 left-0 min-h-full w-full shadow-lg'>
             <div className='bg-slate-100 w-1/4 rounded-lg absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 pb-8'>
                 <div className='p-4 border-b border-slate-500 flex items-center justify-between'>
-                    <h3 className='font-semibold text-2xl'>Book your hotel</h3>
+                    <h3 className='font-semibold text-2xl'>
+                        Book your hotel
+                    </h3>
                     <AiOutlineClose
                         onClick={handleHideModal}
                         className='cursor-pointer'
