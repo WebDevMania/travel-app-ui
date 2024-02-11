@@ -28,12 +28,13 @@ const PopularLocations = () => {
                 color={"#123abc"}
               />
             </>
-          ) : (data.map((place, idx) => (
-            <Card
-              key={idx}
-              place={place}
-            />
-          )))}
+          ) : (
+            data.map((place, idx) => (
+              <Card
+                key={idx}
+                place={place}
+              />
+            )))}
         </div>
       </div>
     </div>
